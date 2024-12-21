@@ -1,0 +1,34 @@
+﻿@{
+	string? whiteBloss = ViewData["whiteFlow"]!.ToString(), blackBloss = ViewData["blackFlow"]!.ToString();//извлечение информации из контроллера
+	string?[] column1 = { whiteBloss, blackBloss }, column2 = { blackBloss, whiteBloss };//колоны
+	int leftMarg = 0, colon = 0, row = 0;//отступ слева, колона и ряд
+	var register = new IntegrationDependencies.Registration("journal.txt");//запись логов
+	char[] letters = { 'a', 'b', 'c',
+	'd', 'e', 'f',
+	'g', 'h' };//обозначения колон
+	for (int i = 0; i < 4; i++)
+	{
+		row = 0;//сброс ряда
+		int topMarg = 0;//сброс отступа сверху
+		for (int x = 0; x < 4; x++) foreach (string? flow in column1)
+		{
+				<div style="position:absolute; margin-left:@leftMarg; margin-top:@topMarg; width:30px; height:30px; background-color:@flow"></div>
+				topMarg += 30;//увеличение отступа сверху
+				register.Log($"{letters[colon]}{row} готово");
+				row++;//увеличение ряда
+			}
+		leftMarg += 30;//увеличение отступа слева
+		topMarg = 0;
+		row = 0;
+		colon++;//увеличение колоны
+		for (int x = 0; x < 4; x++) foreach (string? flow in column2)
+		{
+				<div style="position:absolute; margin-left:@leftMarg; margin-top:@topMarg; width:30px; height:30px; background-color:@flow"></div>
+				topMarg += 30;
+				register.Log($"{letters[colon]}{row} готово");
+				row++;
+			}
+		leftMarg += 30;
+		colon++;
+	}
+}
